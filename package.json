@@ -1,0 +1,38 @@
+{
+  "name": "handledom",
+  "version": "0.0.0",
+  "description": "A template engine for DOM lovers",
+  "author": "tomko.team",
+  "main": "dist/api.js",
+  "scripts": {
+    "prepublishOnly": "npm run lint && npm run build && npm run test",
+    "build": "npm run clear && npm run antlr && npm run tsc-esm && npm run tsc-es5 && npm run make-bundles",
+    "antlr": "java -cp \"antlr-4.7.2-complete.jar\" org.antlr.v4.Tool -Dlanguage=JavaScript -o antlr-parser Handle*.g4",
+    "tsc": "tsc",
+    "tsc:watch": "tsc --watch",
+    "tsc-esm": "tsc --module ES2015 --outDir compiled-esm",
+    "tsc-es5": "tsc --target ES5 --outDir compiled-es5",
+    "clear": "rimraf 'antlr-parser/*' 'dist/*' 'compiled-*/*'",
+    "make-bundles": "node scripts/make-bundles.js",
+    "lint": "tslint -p tsconfig.json -t verbose",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "main": "node dist/main.js"
+  },
+  "dependencies": {
+    "antlr4": "^4.7.2"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.0.1",
+    "@types/jest": "^24.0.25",
+    "@types/node": "^12.12.22",
+    "jest": "^24.9.0",
+    "js-beautify": "^1.10.2",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.29.0",
+    "ts-jest": "^24.2.0",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.5"
+  }
+}
