@@ -1,5 +1,5 @@
 {
-  "name": "handledom-in-template-string-vscode",
+  "name": "handledom-in-template-string-loader",
   "version": "0.0.1",
   "license": "CC0-1.0",
   "description": "Compile Handledom templates in template strings at build time.",
@@ -15,6 +15,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "handledom": "file:../handledom",
     "loader-utils": "^1.2.3"
   },
   "devDependencies": {
@@ -29,7 +30,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tomko-team/handledom-in-template-string-vscode.git"
+    "url": "git+https://github.com/tomko-team/handledom-in-template-string-loader.git"
   },
   "keywords": [
     "handledom",
