@@ -22,7 +22,7 @@ describe("Tests of 'update-source'", () => {
   {{ secondPlaceholder }} And another text
 </div>\``
     const result = updateSource(source, options)
-    console.log(result)
+    // console.log(result)
     expect(result).toBeDefined()
   })
 })

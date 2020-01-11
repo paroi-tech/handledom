@@ -16,12 +16,18 @@ In the `webpack.config.js` file, add this rule:
 
 ```js
   module.exports = {
+    mode: 'development',
+    entry: './src/index.js',
+    output: {
+      path: `${__dirname}/public`,
+      filename: 'bundle.js'
+    },
     module: {
       rules: [
         {
           test: /\.(js|ts)$/,
           exclude: /node_modules/,
-          use: ['handledom-template-in-string-loader']
+          use: ['handledom-in-template-string-loader']
         }
       ]
     }

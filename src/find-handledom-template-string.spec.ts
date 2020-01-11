@@ -17,7 +17,7 @@ describe("Tests of 'find-handledom-template-string'", () => {
   {{ secondPlaceholder }} And another text
 </div>\``
     const result = findHandledomTemplateString(source)
-    console.log(result)
+    // console.log(result)
     expect(result).toBeDefined()
   })
 })
