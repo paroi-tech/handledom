@@ -1,6 +1,3 @@
-const newLine = `(?:\\r?\\n|\\r)`
-export const lineBegin = `(?:^|${newLine})`
-
 export interface FoundTemplate {
   start: number
   end: number
@@ -9,6 +6,8 @@ export interface FoundTemplate {
 }
 
 export function findHandledomTemplateString(source: string): FoundTemplate|undefined {
+  const newLine = `(?:\\r?\\n|\\r)`
+  const lineBegin = `(?:^|${newLine})`
   const varName = "[a-zA-Z_][a-zA-Z0-9_]*"
   const varDeclar = `(?:const|let|var)\\s${varName}`
   const beforeHandledomTag = `${varDeclar}\\s*=`
