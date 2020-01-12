@@ -1,8 +1,9 @@
 {
   "name": "handledom",
-  "version": "0.0.0",
-  "description": "A template engine for DOM lovers",
+  "version": "0.0.1",
+  "description": "An HTML template engine for DOM lovers.",
   "author": "tomko.team",
+  "license": "CC0-1.0",
   "main": "dist/api.js",
   "scripts": {
     "prepublishOnly": "npm run lint && npm run build && npm run test",
@@ -27,12 +28,22 @@
     "@types/jest": "^24.0.25",
     "@types/node": "^12.12.22",
     "jest": "^24.9.0",
-    "js-beautify": "^1.10.2",
     "rimraf": "^3.0.0",
     "rollup": "^1.29.0",
     "ts-jest": "^24.2.0",
     "tslint": "^5.20.1",
     "typescript": "^3.7.4",
     "webpack": "^4.41.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomko-team/handledom.git"
+  },
+  "homepage": "https://github.com/tomko-team/handledom/tree/master/handledom",
+  "keywords": [
+    "dom",
+    "html",
+    "template",
+    "engine"
+  ]
 }
