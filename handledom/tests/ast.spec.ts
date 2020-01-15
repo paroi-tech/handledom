@@ -1,6 +1,6 @@
-import { AstElement } from "../src/ast"
 import { generateCode } from "../src/function-builder"
 import { parseHandledom } from "../src/parse-handledom"
+import { AstElement } from "../types/ast"
 
 describe("AST Specification", () => {
   test("mismatched tags", () => {

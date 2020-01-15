@@ -1,4 +1,4 @@
-import { AstElement, AstNode } from "./ast"
+import { AstElement, AstNode } from "../types/ast"
 
 interface VariableInfo {
   varName: string

@@ -6,13 +6,14 @@ const { rollup } = require("rollup")
 const commonjsPlugin = require("@rollup/plugin-commonjs");
 
 const packageDir = resolve(__dirname, "..")
-const outputDir = join(packageDir, "dist")
+const outputDir = packageDir
 
 async function build() {
   if (!existsSync(outputDir))
     await mkdir(outputDir)
-  await bundleWithRollup(join(packageDir, "compiled-esm", "api.js"), "handledom", "commonjs")
-  await bundleWithWebpack(join(packageDir, "compiled-es5", "api.browser.js"), "handledom.browser")
+  await bundleWithRollup(join(packageDir, "compiled-esm", "api.js"), "bundle", "commonjs")
+  await bundleWithWebpack(join(packageDir, "compiled-es5", "api.browser.js"), "browser")
+  // await bundleWithWebpack(join(packageDir, "compiled-es5", "api.browser.js"), "browser.development", "development")
 }
 
 async function bundleWithRollup(mainFile, bundleName, format) {
@@ -33,11 +34,13 @@ async function bundleWithRollup(mainFile, bundleName, format) {
   await writeFile(join(outputDir, `${bundleName}.js`), bundleCode)
 }
 
-async function bundleWithWebpack(mainFile, bundleName) {
+async function bundleWithWebpack(mainFile, bundleName, mode = "production") {
   await webpackAsync({
-    mode: "production",
+    mode,
     entry: mainFile,
     output: {
+      library: "handledom",
+      libraryTarget: "umd",
       path: outputDir,
       filename: `${bundleName}.js`,
       // globalObject: "window", // preserve 'this' in TS's ES5 helpers

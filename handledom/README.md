@@ -7,6 +7,26 @@
 
 An HTML template engine for DOM lovers.
 
+## How to use: with compilation on the browser
+
+Install `handledom`:
+
+```sh
+npm i handledom
+```
+
+Then, use it:
+
+```ts
+import handledom from "handledom/browser"
+
+const template = handledom`<p>Hello, {{ name }}!</p>`
+
+const { root, update } = template({
+  name: "Pierre"
+})
+document.body.append(root)
+```
 
 ## Contribute
 

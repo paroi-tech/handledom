@@ -9,8 +9,7 @@
     "moduleResolution": "node",
     "outDir": "compiled-cjs",
     "noEmitOnError": true,
-    "declaration": false
+    "declaration": true
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "build", "compiled-*"]
+  "include": ["src", "types"]
 }

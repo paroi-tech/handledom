@@ -1,7 +1,7 @@
 import { CommonTokenStream, InputStream, tree } from "antlr4"
 import { HandleDomLexer } from "../antlr-parser/HandleDomLexer"
 import { HandleDomParser } from "../antlr-parser/HandleDomParser"
-import { AstElement } from "./ast"
+import { AstElement } from "../types/ast"
 import AstExtractor from "./AstExtractor"
 
 export function parseHandledom(source: string): AstElement {

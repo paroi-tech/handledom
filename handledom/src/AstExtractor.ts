@@ -1,6 +1,6 @@
 import { HandleDomParserListener } from "../antlr-parser/HandleDomParserListener"
+import { AstAttribute, AstElement, AstNode, AstVariable } from "../types/ast"
 import { AntlrRuleContext } from "./antlr4-defs"
-import { AstAttribute, AstElement, AstNode, AstVariable } from "./ast"
 import { convertEntities } from "./convert-entities"
 
 export default class AstExtractor extends (HandleDomParserListener as any) {
