@@ -1,14 +1,7 @@
-const { compileHandledom } = require("handledom")
+import { compileHandledom } from "handledom"
 import { findHandledomTemplateString } from "./find-handledom-template-string"
 
-export interface UpdateSourceOptions {
-  templateStringPrefix?: string
-  filePath: string
-  fileName: string
-  sourceMap?: any
-}
-
-export function updateSource(source: string, options: UpdateSourceOptions) {
+export function updateSource(source: string) {
   const templateString = findHandledomTemplateString(source)
   if (!templateString)
     return source

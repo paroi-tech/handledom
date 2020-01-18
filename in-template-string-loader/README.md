@@ -1,15 +1,13 @@
-# handledom-template-in-string-loader
+# @handledom/in-template-string-loader
 
-Compile Handledom templates in template strings at build time.
-
-It allows to write single file components in standard JavaScript and TypeScript source files.
+Compile Handledom templates in tagged template strings at build time.
 
 ## How to use
 
-First, add `handledom-template-in-string-loader` to a webpack config file:
+First, add `@handledom/in-template-string-loader` to a webpack config file:
 
 ```sh
-npm install handledom-template-in-string-loader --save-dev
+npm install @handledom/in-template-string-loader --save-dev
 ```
 
 In the `webpack.config.js` file, add this rule:
@@ -27,7 +25,7 @@ In the `webpack.config.js` file, add this rule:
         {
           test: /\.(js|ts)$/,
           exclude: /node_modules/,
-          use: ['handledom-in-template-string-loader']
+          use: ['@handledom/in-template-string-loader']
         }
       ]
     }
