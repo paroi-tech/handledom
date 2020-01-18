@@ -9,4 +9,5 @@ before_install:
   - wget https://www.antlr.org/download/antlr-4.7.2-complete.jar --directory-prefix handledom
 env:
   - SUB_PROJECT=handledom
+  - SUB_PROJECT=in-template-string-loader
 script: cd $SUB_PROJECT && npm i && npm run prepublishOnly

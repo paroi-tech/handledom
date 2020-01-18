@@ -1,16 +1,8 @@
-import { updateSource, UpdateSourceOptions } from "./update-source"
+import { updateSource } from "./update-source"
 
 describe("Tests of 'update-source'", () => {
-  const options: UpdateSourceOptions = {
-    fileName: "file1.js",
-    filePath: "a/b/c/file1.js"
-  }
-
   test("with basic template string", () => {
     const source = `const template = handledom\`<div class="abc" :ref="div">
-  <script>
-    console.log("Hello template...")
-  </script>
   {{ firstPlaceHolder }}
   <br> This a text
   <!-- This is a comment -->
@@ -21,7 +13,7 @@ describe("Tests of 'update-source'", () => {
   </style>
   {{ secondPlaceholder }} And another text
 </div>\``
-    const result = updateSource(source, options)
+    const result = updateSource(source)
     // console.log(result)
     expect(result).toBeDefined()
   })

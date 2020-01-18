@@ -1,8 +1,17 @@
+import { compileHandledom } from "../src/api"
 import { generateCode } from "../src/function-builder"
 import { parseHandledom } from "../src/parse-handledom"
 import { AstElement } from "../types/ast"
 
 describe("AST Specification", () => {
+
+  test("Simple template", () => {
+    const template = `<p>Hello, {{ name }}!</p>`
+    const compiled = compileHandledom(template)
+    // console.log(compiled)
+    expect(compiled !== template)
+  })
+
   test("mismatched tags", () => {
     const template = `
     <div>

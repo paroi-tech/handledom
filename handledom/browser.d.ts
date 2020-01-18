@@ -1,4 +1,4 @@
-export * from "./handledom"
+export * from "./bundle"
 
 export type HandledomTemplate = (variables?: { [name: string]: any }) => HandledomTemplateInstance
 

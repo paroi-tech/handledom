@@ -5,22 +5,18 @@ export interface FoundTemplate {
   value: string
 }
 
-export function findHandledomTemplateString(source: string): FoundTemplate|undefined {
-  const newLine = `(?:\\r?\\n|\\r)`
-  const lineBegin = `(?:^|${newLine})`
+export function findHandledomTemplateString(source: string): FoundTemplate | undefined {
+  const before = `(?:^|[^a-zA-Z0-9])`
   const varName = "[a-zA-Z_][a-zA-Z0-9_]*"
   const varDeclar = `(?:const|let|var)\\s${varName}`
-  const beforeHandledomTag = `${varDeclar}\\s*=`
   const templateString = "`(?:[^`\\\\]*(?:\\\\.[^`\\\\]*)*)`"
 
   const reg = new RegExp(
-    `${lineBegin}(${beforeHandledomTag}\\s*)(?:handledom)\\s*(${templateString})(?:\\s*;)?`,
+    `${before}(${varDeclar}\\s*=\\s*)handledom\\s*(${templateString})(?:\\s*;)?`,
     "g"
   )
 
   const found = reg.exec(source)
-
-  console.log("Found ", found)
 
   if (!found)
     return
