@@ -1,4 +1,4 @@
-import { compileHandledom } from "handledom"
+import { compileHandledom } from "handledom/compiler"
 import { findHandledomTemplateString } from "./find-handledom-template-string"
 
 export function updateSource(source: string) {

@@ -1,11 +1,11 @@
 {
   "name": "handledom",
-  "version": "0.0.4",
+  "version": "0.0.7",
   "license": "CC0-1.0",
   "description": "An HTML template engine for DOM lovers.",
   "author": "tomko.team",
-  "main": "bundle.js",
-  "types": "bundle.d.ts",
+  "main": "template-string.js",
+  "types": "template-string.d.ts",
   "scripts": {
     "prepublishOnly": "npm run lint && npm run build && npm run test",
     "build": "npm run clear && npm run antlr && npm run tsc-esm && npm run tsc-es5 && npm run make-bundles",
@@ -14,7 +14,7 @@
     "tsc:watch": "tsc --watch",
     "tsc-esm": "tsc --module ES2015 --outDir compiled-esm",
     "tsc-es5": "tsc --target ES5 --outDir compiled-es5",
-    "clear": "rimraf 'antlr-parser/*' 'compiled-*/*' 'bundle*.js' 'browser*.js'",
+    "clear": "rimraf 'antlr-parser/*' 'compiled-*/*' 'compiler*.js' 'template-string*.js' 'browser*.js'",
     "make-bundles": "node scripts/make-bundles.js",
     "lint": "tslint -p tsconfig.json -t verbose",
     "test": "jest",
@@ -22,9 +22,9 @@
   },
   "files": [
     "types",
-    "bundle*",
+    "compiler*",
     "browser*",
-    "global*"
+    "template-string*"
   ],
   "dependencies": {
     "antlr4": "^4.8.0"

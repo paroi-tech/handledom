@@ -1,4 +1,4 @@
-import { compileHandledom } from "../src/api"
+import { compileHandledom } from "../src/api.compiler"
 import { generateCode } from "../src/function-builder"
 import { parseHandledom } from "../src/parse-handledom"
 import { AstElement } from "../types/ast"

@@ -11,7 +11,8 @@ const outputDir = packageDir
 async function build() {
   if (!existsSync(outputDir))
     await mkdir(outputDir)
-  await bundleWithRollup(join(packageDir, "compiled-esm", "api.js"), "bundle", "commonjs")
+  await bundleWithRollup(join(packageDir, "compiled-esm", "api.compiler.js"), "compiler", "commonjs")
+  await bundleWithRollup(join(packageDir, "compiled-esm", "api.template-string.js"), "template-string", "commonjs")
   await bundleWithWebpack(join(packageDir, "compiled-es5", "api.browser.js"), "browser")
   // await bundleWithWebpack(join(packageDir, "compiled-es5", "api.browser.js"), "browser.development", "development")
 }

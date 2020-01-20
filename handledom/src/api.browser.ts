@@ -1,14 +1,7 @@
-import { compileHandledom, parseHandledom } from "./api"
+import { HandledomTemplate } from "../types/dom-types"
+import { compileHandledom } from "./api.compiler"
 
-export type HandledomTemplate = (variables?: { [name: string]: any }) => HandledomTemplateInstance
-
-export interface HandledomTemplateInstance {
-  root: HTMLElement
-  refs: {
-    [ref: string]: HTMLElement | HTMLElement[]
-  }
-  update?(variables: { [name: string]: any }): void
-}
+export * from "./api.compiler"
 
 export default function handledom(strings: TemplateStringsArray, ...expressions: string[]): HandledomTemplate {
   let template = strings[0]
@@ -23,6 +16,3 @@ export default function handledom(strings: TemplateStringsArray, ...expressions:
   // tslint:disable-next-line: no-eval
   return eval("(" + code + ")")
 }
-
-export { compileHandledom, parseHandledom }
-
