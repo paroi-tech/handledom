@@ -1,6 +1,6 @@
 {
   "name": "handledom",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "CC0-1.0",
   "description": "An HTML template engine for DOM lovers.",
   "author": "tomko.team",
@@ -23,7 +23,8 @@
   "files": [
     "types",
     "bundle*",
-    "browser*"
+    "browser*",
+    "global*"
   ],
   "dependencies": {
     "antlr4": "^4.8.0"

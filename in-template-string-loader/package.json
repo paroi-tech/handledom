@@ -1,6 +1,6 @@
 {
   "name": "@handledom/in-template-string-loader",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "CC0-1.0",
   "description": "A webpack loader that compiles Handledom templates in template strings at build time.",
   "author": "tomko.team",
@@ -15,9 +15,11 @@
     "test": "jest",
     "test:watch": "jest --watch"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
-    "handledom": "^0.0.3",
+    "handledom": "0.0.4",
     "loader-utils": "^1.2.3"
   },
   "devDependencies": {
