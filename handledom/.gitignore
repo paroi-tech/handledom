@@ -6,5 +6,7 @@ node_modules
 /antlr-parser
 
 /compiled-*
-/bundle*.js
+
+/compiler*.js
 /browser*.js
+/template-string*.js
