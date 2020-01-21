@@ -87,7 +87,7 @@ export function generateCode(root: AstElement) {
     fnBody += `return{root:el1,refs};`
 
   fnBody += `}`
-  return `${fnHead}${fnBody} // eslint-disable-line tslint:disable-line`
+  return `${fnHead}${fnBody}` // Maybe, append: eslint-disable-line tslint:disable-line
 }
 
 function updateRefs(refs, varName: string, ref: string) {

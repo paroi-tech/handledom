@@ -7,7 +7,77 @@
 
 An HTML template engine for DOM lovers.
 
-## How to use: with compilation on the browser
+## How to use with Webpack
+
+Handledom templates will be compiled at build time by Webpack.
+
+Install:
+
+```sh
+# Install Handledom and its webpack plugin
+npm i handledom
+npm i -D @handledom/in-template-string-loader
+
+# Install classic webpack packages
+npm i -D webpack webpack-cli
+```
+
+In `webpack.config.js`:
+
+```js
+module.exports = {
+  // …
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: ["@handledom/in-template-string-loader"]
+      },
+    ]
+  }
+}
+```
+
+In a source file:
+
+```ts
+import handledom from "handledom"
+
+const template = handledom`<p>Hello, {{ name }}!</p>`
+
+const { root, update } = template({
+  name: "Steve"
+})
+
+document.body.append(root)
+```
+
+## Configure Webpack to use Handledom with TypeScript
+
+In `webpack.config.js`:
+
+```js
+module.exports = {
+  // …
+  resolve: {
+    extensions: [".ts"],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        use: ["@handledom/in-template-string-loader", "ts-loader"]
+      },
+    ]
+  }
+}
+```
+
+## How to use with compilation on the browser
+
+Handledom templates can be compiled at runtime on the browser. Here is how to do:
 
 Install `handledom`:
 
@@ -15,7 +85,7 @@ Install `handledom`:
 npm i handledom
 ```
 
-Then, use it:
+In a source file:
 
 ```ts
 import handledom from "handledom/browser"
@@ -23,8 +93,9 @@ import handledom from "handledom/browser"
 const template = handledom`<p>Hello, {{ name }}!</p>`
 
 const { root, update } = template({
-  name: "Pierre"
+  name: "Steve"
 })
+
 document.body.append(root)
 ```
 
