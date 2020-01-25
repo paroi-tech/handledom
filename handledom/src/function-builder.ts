@@ -1,27 +1,19 @@
 import { AstElement, AstNode } from "../types/ast"
 
-interface GeneratedVariable {
-  varName: string
-  parentVarName?: string
-  node: AstNode
-}
-
 const encodeString = JSON.stringify
 
 export function generateCode(root: AstElement) {
   const genVariables = toGeneratedVariables(root)
   const refs = {}
-  let updateMethod = false
+  let canBeUpdated = false
   const body: string[] = []
 
-  for (const info of genVariables) {
-    const { varName, parentVarName, node } = info
-
+  for (const { varName, parentVarName, node } of genVariables) {
     if (typeof node === "string") {
       body.push(`const ${varName}=document.createTextNode(${encodeString(node)});`)
       body.push(`${parentVarName}.appendChild(${varName});`)
     } else if (node.nodeType === "variable") {
-      updateMethod = true
+      canBeUpdated = true
       body.push(`const ${varName}=document.createTextNode(variables["${node.variableName}"] || "");`)
       body.push(`${parentVarName}.appendChild(${varName});`)
       body.push(`getCbArray("${node.variableName}").push((v) => ${varName}.nodeValue = v);`)
@@ -35,7 +27,7 @@ export function generateCode(root: AstElement) {
       for (const attr of (node.attributes || [])) {
         if (attr.name === ":ref") {
           checkRefAttributeValue(attr.value, node.nodeName)
-          updateRefs(refs, varName, attr.value as string)
+          updateRefs(refs, varName, attr.value)
         } else if (!attr.value || typeof attr.value === "string") {
           const p1 = encodeString(attr.name)
           const p2 = encodeString(attr.value || "")
@@ -48,7 +40,7 @@ export function generateCode(root: AstElement) {
           chunks.push(
             `getCbArray("${property}").push(v => ${varName}.setAttribute(${encodeString(attr.name)}, v));`
           )
-          updateMethod = true
+          canBeUpdated = true
         }
       }
 
@@ -66,7 +58,7 @@ export function generateCode(root: AstElement) {
   const before: string[] = []
   const after: string[] = []
 
-  if (updateMethod) {
+  if (canBeUpdated) {
     before.push(/* */ `const m=new Map();`)
     before.push(/* */ `const getCbArray=(key)=>{`)
     before.push(/*   */ `let value=m.get(key);`)
@@ -87,7 +79,7 @@ export function generateCode(root: AstElement) {
   } else
     after.push(`return{root:el1,refs};`)
 
-  return `function(${updateMethod ? "variables" : ""}){${before.join("")}${body.join("")}${after.join("")}}`
+  return `function(${canBeUpdated ? "variables" : ""}){${before.join("")}${body.join("")}${after.join("")}}`
 }
 
 function updateRefs(refs, varName: string, ref: string) {
@@ -100,37 +92,43 @@ function updateRefs(refs, varName: string, ref: string) {
     refs[ref] = [obj, varName]
 }
 
-function toGeneratedVariables(root: AstElement) {
-  const q = [] as GeneratedVariable[]
-  const a = [] as GeneratedVariable[]
-  let j = 1
+interface GeneratedVariable {
+  varName: string
+  parentVarName?: string
+  node: AstNode
+}
 
-  q.push({
-    varName: `el${j}`,
+function toGeneratedVariables(root: AstElement): GeneratedVariable[] {
+  const remaining = [] as GeneratedVariable[]
+  const result = [] as GeneratedVariable[]
+  let num = 1
+
+  remaining.push({
+    varName: `el${num}`,
     node: root
   })
-  j += 1
+  ++num
 
-  while (q.length !== 0) {
-    const current = q.shift()!
+  while (remaining.length !== 0) {
+    const current = remaining.shift()!
     const node = current.node
     if (typeof node !== "string" && node.nodeType === "element") {
       for (const child of (node.children || [])) {
-        q.push({
-          varName: `el${j}`,
+        remaining.push({
+          varName: `el${num}`,
           node: child,
           parentVarName: current?.varName
         })
-        j += 1
+        ++num
       }
     }
-    a.push(current)
+    result.push(current)
   }
 
-  return a
+  return result
 }
 
-function checkRefAttributeValue(value: any, tagName: string) {
+function checkRefAttributeValue(value: any, tagName: string): asserts value is string {
   if (!value)
     throw new Error(`Missing value for :ref attribute on ${tagName} tag`)
   if (typeof value !== "string")

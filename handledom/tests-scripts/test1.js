@@ -15,6 +15,6 @@ function codeOf(source) {
 
 codeOf(`
 <div>
-  <p>{{ message }}</p>
+  <p h-if={{ showP }}>{{ message }}</p>
 </div>
 `)
