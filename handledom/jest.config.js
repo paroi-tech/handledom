@@ -12,11 +12,4 @@ module.exports = {
   testMatch: [
     "**/(src|tests)/**/*.spec.(js|ts)",
   ],
-  globals: {
-    "ts-jest": {
-      tsConfig: {
-        esModuleInterop: true
-      }
-    }
-  }
 }

@@ -14,7 +14,7 @@ export function generateCode(root: AstElement) {
       body.push(`${parentVarName}.appendChild(${varName});`)
     } else if (node.nodeType === "variable") {
       canBeUpdated = true
-      body.push(`const ${varName}=document.createTextNode(variables["${node.variableName}"] || "");`)
+      body.push(`const ${varName}=document.createTextNode("");`)
       body.push(`${parentVarName}.appendChild(${varName});`)
       body.push(`getCbArray("${node.variableName}").push(v=>${varName}.nodeValue=v);`)
     } else {
@@ -55,7 +55,8 @@ export function generateCode(root: AstElement) {
     after.push(/*       */ `cbArray.forEach(cb=>cb(v));`)
     after.push(/*   */ `})`)
     after.push(/* */ `};`)
-    after.push(`return{root:el1,refs,update};`)
+    after.push(/* */ `if(variables){update(variables);}`)
+    after.push(/* */ `return{root:el1,refs,update};`)
   } else
     after.push(`return{root:el1,refs};`)
 
@@ -78,9 +79,6 @@ function generateElementContentCode(node: AstElement, varName: string, refs: obj
       content.push(`${varName}.setAttribute(${p1}, ${p2});`)
     } else {
       const property = attr.value.variableName
-      const cond = `variables.hasOwnProperty("${property}")`
-      const statement = `${varName}.setAttribute(${encodeString(attr.name)}, variables["${property}"]);`
-      content.push(`if(${cond}){${statement}}`)
       content.push(
         `getCbArray("${property}").push(v=>${varName}.setAttribute(${encodeString(attr.name)},v));`
       )
