@@ -16,7 +16,7 @@ export function generateDomCode(genVariables: GeneratedVariable[]) {
       canBeUpdated = true
       body.push(`const ${varName}=document.createTextNode("");`)
       body.push(`${parentVarName}.appendChild(${varName});`)
-      body.push(`getCbArray("${node.variableName}").push(v=>${varName}.nodeValue=v);`)
+      body.push(`cbListOf("${node.variableName}").push(v=>${varName}.nodeValue=v);`)
     } else {
       body.push(`const ${varName}=document.createElement(${encodeString(node.nodeName)});`)
       if (parentVarName)
@@ -36,7 +36,7 @@ export function generateDomCode(genVariables: GeneratedVariable[]) {
   }
 }
 
-function generateElementContentCode(node: AstElement, varName: string, refs: object) {
+function generateElementContentCode(node: AstElement, varName: string, refs: {}) {
   const content: string[] = []
   let canBeUpdated = false
 
@@ -53,7 +53,7 @@ function generateElementContentCode(node: AstElement, varName: string, refs: obj
     } else {
       const property = attr.value.variableName
       content.push(
-        `getCbArray("${property}").push(v=>${varName}.setAttribute(${encodeString(attr.name)},v));`
+        `cbListOf("${property}").push(v=>${varName}.setAttribute(${encodeString(attr.name)},v));`
       )
       canBeUpdated = true
     }
