@@ -1,0 +1,1 @@
+This directory contains code that manually runs the compiler.

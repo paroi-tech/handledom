@@ -1,6 +1,6 @@
 import { AstElement, AstNode } from "../types/ast"
 
-interface VariableInfo {
+interface GeneratedVariable {
   varName: string
   parentVarName?: string
   node: AstNode
@@ -9,26 +9,26 @@ interface VariableInfo {
 const encodeString = JSON.stringify
 
 export function generateCode(root: AstElement) {
-  const a = bfs(root)
+  const genVariables = toGeneratedVariables(root)
   const refs = {}
   let updateMethod = false
-  let fnBody = ``
+  const body: string[] = []
 
-  for (const info of a) {
+  for (const info of genVariables) {
     const { varName, parentVarName, node } = info
 
     if (typeof node === "string") {
-      fnBody += `const ${varName}=document.createTextNode(${encodeString(node)});`
-      fnBody += `${parentVarName}.appendChild(${varName});`
+      body.push(`const ${varName}=document.createTextNode(${encodeString(node)});`)
+      body.push(`${parentVarName}.appendChild(${varName});`)
     } else if (node.nodeType === "variable") {
       updateMethod = true
-      fnBody += `const ${varName}=document.createTextNode(variables["${node.variableName}"] || "");`
-      fnBody += `${parentVarName}.appendChild(${varName});`
-      fnBody += `getCbArray("${node.variableName}").push((v) => ${varName}.nodeValue = v);`
+      body.push(`const ${varName}=document.createTextNode(variables["${node.variableName}"] || "");`)
+      body.push(`${parentVarName}.appendChild(${varName});`)
+      body.push(`getCbArray("${node.variableName}").push((v) => ${varName}.nodeValue = v);`)
     } else {
-      fnBody += `const ${varName}=document.createElement(${encodeString(node.nodeName)});`
+      body.push(`const ${varName}=document.createElement(${encodeString(node.nodeName)});`)
       if (parentVarName)
-        fnBody += `${parentVarName}.appendChild(${varName});`
+        body.push(`${parentVarName}.appendChild(${varName});`)
 
       const chunks: string[] = []
 
@@ -53,7 +53,7 @@ export function generateCode(root: AstElement) {
       }
 
       if (chunks.length !== 0)
-        fnBody += chunks.join("")
+        body.push(chunks.join(""))
     }
   }
 
@@ -61,33 +61,33 @@ export function generateCode(root: AstElement) {
     ([k, v]) => `${k}:${Array.isArray(v) ? `[${v.join(",")}]` : v}`
   ).join(",") + "};"
 
-  fnBody += `const refs=${refsCode};`
+  body.push(`const refs=${refsCode};`)
 
-  let fnHead = `function(${updateMethod ? "variables" : ""}){`
+  const before: string[] = []
+  const after: string[] = []
 
   if (updateMethod) {
-    fnHead += /* */ `const m=new Map();`
-    fnHead += /* */ `const getCbArray=(key)=>{`
-    fnHead += /*   */ `let value=m.get(key);`
-    fnHead += /*   */ `if (!value){`
-    fnHead += /*     */ `value=[];`
-    fnHead += /*     */ `m.set(key,value);`
-    fnHead += /*   */ `}`
-    fnHead += /*   */ `return value;`
-    fnHead += /* */ `};`
-    fnBody += /* */ `const update=values=>{`
-    fnBody += /*   */ `Object.entries(values).forEach(([k,v])=>{`
-    fnBody += /*     */ `const cbArray=m.get(k);`
-    fnBody += /*     */ `if(cbArray)`
-    fnBody += /*       */ `cbArray.forEach(cb=>cb(v));`
-    fnBody += /*   */ `})`
-    fnBody += /* */ `};`
-    fnBody += `return{root:el1,refs,update};`
+    before.push(/* */ `const m=new Map();`)
+    before.push(/* */ `const getCbArray=(key)=>{`)
+    before.push(/*   */ `let value=m.get(key);`)
+    before.push(/*   */ `if (!value){`)
+    before.push(/*     */ `value=[];`)
+    before.push(/*     */ `m.set(key,value);`)
+    before.push(/*   */ `}`)
+    before.push(/*   */ `return value;`)
+    before.push(/* */ `};`)
+    after.push(/* */ `const update=values=>{`)
+    after.push(/*   */ `Object.entries(values).forEach(([k,v])=>{`)
+    after.push(/*     */ `const cbArray=m.get(k);`)
+    after.push(/*     */ `if(cbArray)`)
+    after.push(/*       */ `cbArray.forEach(cb=>cb(v));`)
+    after.push(/*   */ `})`)
+    after.push(/* */ `};`)
+    after.push(`return{root:el1,refs,update};`)
   } else
-    fnBody += `return{root:el1,refs};`
+    after.push(`return{root:el1,refs};`)
 
-  fnBody += `}`
-  return `${fnHead}${fnBody}` // Maybe, append: eslint-disable-line tslint:disable-line
+  return `function(${updateMethod ? "variables" : ""}){${before.join("")}${body.join("")}${after.join("")}}`
 }
 
 function updateRefs(refs, varName: string, ref: string) {
@@ -100,9 +100,9 @@ function updateRefs(refs, varName: string, ref: string) {
     refs[ref] = [obj, varName]
 }
 
-function bfs(root: AstElement) {
-  const q = [] as VariableInfo[]
-  const a = [] as VariableInfo[]
+function toGeneratedVariables(root: AstElement) {
+  const q = [] as GeneratedVariable[]
+  const a = [] as GeneratedVariable[]
   let j = 1
 
   q.push({
