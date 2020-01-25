@@ -13,7 +13,7 @@ Create a JS file:
 const { compileHandledom } = require("../compiled-cjs/api.compiler")
 const { js: beautify } = require('js-beautify')
 
-function codeOf(source) {
+function showCodeOf(source) {
   const minified = compileHandledom(source)
   const beautified = beautify(minified, {
     indent_size: 2,
@@ -25,7 +25,7 @@ function codeOf(source) {
   console.log("\n" + minified)
 }
 
-codeOf(`
+showCodeOf(`
 <div>
   <p class={{ className }}>{{ message }}</p>
 </div>
@@ -35,7 +35,7 @@ codeOf(`
 Then, execute your script:
 
 ```sh
-node handledom/test-scripts/example.js
+node handledom/test-scripts/test1.js
 ```
 
 All files in this directory are in `.gitignore` (except `README.md`).
