@@ -1,5 +1,5 @@
-import { HandleDomParserListener } from "../antlr-parser/HandleDomParserListener"
-import { AstAttribute, AstElement, AstNode, AstVariable } from "../types/ast"
+import { HandleDomParserListener } from "../../antlr-parser/HandleDomParserListener"
+import { AstAttribute, AstElement, AstNode, AstVariable } from "../../types/ast"
 import { AntlrRuleContext } from "./antlr4-defs"
 import { convertEntities } from "./convert-entities"
 

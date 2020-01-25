@@ -1,5 +1,5 @@
-import { generateCode } from "./function-builder"
-import { parseHandledom } from "./parse-handledom"
+import { generateCode } from "./js-generator/function-builder"
+import { parseHandledom } from "./parser/parse-handledom"
 
 export function compileHandledom(template: string): string {
   const ast = parseHandledom(template)

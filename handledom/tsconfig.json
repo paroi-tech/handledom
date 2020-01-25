@@ -11,5 +11,5 @@
     "noEmitOnError": true,
     "declaration": true
   },
-  "include": ["src", "types"]
+  "include": ["src", "types", "tests"]
 }

@@ -1,4 +1,4 @@
-import { AstElement, AstNode } from "../types/ast"
+import { AstElement, AstNode } from "../../types/ast"
 
 const encodeString = JSON.stringify
 
@@ -16,36 +16,16 @@ export function generateCode(root: AstElement) {
       canBeUpdated = true
       body.push(`const ${varName}=document.createTextNode(variables["${node.variableName}"] || "");`)
       body.push(`${parentVarName}.appendChild(${varName});`)
-      body.push(`getCbArray("${node.variableName}").push((v) => ${varName}.nodeValue = v);`)
+      body.push(`getCbArray("${node.variableName}").push(v=>${varName}.nodeValue=v);`)
     } else {
       body.push(`const ${varName}=document.createElement(${encodeString(node.nodeName)});`)
       if (parentVarName)
         body.push(`${parentVarName}.appendChild(${varName});`)
-
-      const chunks: string[] = []
-
-      for (const attr of (node.attributes || [])) {
-        if (attr.name === ":ref") {
-          checkRefAttributeValue(attr.value, node.nodeName)
-          updateRefs(refs, varName, attr.value)
-        } else if (!attr.value || typeof attr.value === "string") {
-          const p1 = encodeString(attr.name)
-          const p2 = encodeString(attr.value || "")
-          chunks.push(`${varName}.setAttribute(${p1}, ${p2});`)
-        } else {
-          const property = attr.value.variableName
-          const cond = `"${property}" in variables`
-          const statement = `${varName}.setAttribute(${encodeString(attr.name)}, variables["${property}"]);`
-          chunks.push(`if(${cond}){${statement}}`)
-          chunks.push(
-            `getCbArray("${property}").push(v => ${varName}.setAttribute(${encodeString(attr.name)}, v));`
-          )
-          canBeUpdated = true
-        }
-      }
-
-      if (chunks.length !== 0)
-        body.push(chunks.join(""))
+      const { content, canBeUpdated: upd } = generateElementContentCode(node, varName, refs)
+      if (upd)
+        canBeUpdated = true
+      if (content.length !== 0)
+        body.push(content.join(""))
     }
   }
 
@@ -82,7 +62,36 @@ export function generateCode(root: AstElement) {
   return `function(${canBeUpdated ? "variables" : ""}){${before.join("")}${body.join("")}${after.join("")}}`
 }
 
-function updateRefs(refs, varName: string, ref: string) {
+function generateElementContentCode(node: AstElement, varName: string, refs: object) {
+  const content: string[] = []
+  let canBeUpdated = false
+
+  for (const attr of (node.attributes || [])) {
+    if (attr.name === "h-ref") {
+      checkRefAttributeValue(attr.value, node.nodeName)
+      updateRefs(refs, varName, attr.value)
+    } else if (attr.name === "h-if") {
+      // TODO
+    } else if (!attr.value || typeof attr.value === "string") {
+      const p1 = encodeString(attr.name)
+      const p2 = encodeString(attr.value || "")
+      content.push(`${varName}.setAttribute(${p1}, ${p2});`)
+    } else {
+      const property = attr.value.variableName
+      const cond = `variables.hasOwnProperty("${property}")`
+      const statement = `${varName}.setAttribute(${encodeString(attr.name)}, variables["${property}"]);`
+      content.push(`if(${cond}){${statement}}`)
+      content.push(
+        `getCbArray("${property}").push(v=>${varName}.setAttribute(${encodeString(attr.name)},v));`
+      )
+      canBeUpdated = true
+    }
+  }
+
+  return { content, canBeUpdated }
+}
+
+function updateRefs(refs: object, varName: string, ref: string) {
   const obj = refs[ref]
   if (!obj)
     refs[ref] = varName
@@ -99,27 +108,25 @@ interface GeneratedVariable {
 }
 
 function toGeneratedVariables(root: AstElement): GeneratedVariable[] {
-  const remaining = [] as GeneratedVariable[]
-  const result = [] as GeneratedVariable[]
-  let num = 1
+  const remaining: GeneratedVariable[] = []
+  const result: GeneratedVariable[] = []
+  let num = 0
 
   remaining.push({
-    varName: `el${num}`,
+    varName: `el${++num}`,
     node: root
   })
-  ++num
 
   while (remaining.length !== 0) {
     const current = remaining.shift()!
     const node = current.node
     if (typeof node !== "string" && node.nodeType === "element") {
-      for (const child of (node.children || [])) {
+      for (const child of (node.children ?? [])) {
         remaining.push({
-          varName: `el${num}`,
+          varName: `el${++num}`,
           node: child,
           parentVarName: current?.varName
         })
-        ++num
       }
     }
     result.push(current)
@@ -130,9 +137,9 @@ function toGeneratedVariables(root: AstElement): GeneratedVariable[] {
 
 function checkRefAttributeValue(value: any, tagName: string): asserts value is string {
   if (!value)
-    throw new Error(`Missing value for :ref attribute on ${tagName} tag`)
+    throw new Error(`Missing value for 'h-ref' attribute on ${tagName} tag`)
   if (typeof value !== "string")
-    throw new Error(`:ref attribute cannot be a variable`)
+    throw new Error(`'h-ref' attribute cannot be a variable`)
   if (!/^[a-zA-z_$][\w$]*$/.test(value))
-    throw new Error(`Invalid :ref attribute value: ${value}`)
+    throw new Error(`Invalid 'h-ref' attribute value: ${value}`)
 }

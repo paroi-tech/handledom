@@ -1,6 +1,4 @@
-import { compileHandledom } from "../src/api.compiler"
-import { generateCode } from "../src/function-builder"
-import { parseHandledom } from "../src/parse-handledom"
+import { compileHandledom, parseHandledom } from "../src/api.compiler"
 import { AstElement } from "../types/ast"
 
 describe("AST Specification", () => {
@@ -121,13 +119,5 @@ describe("AST Specification", () => {
       nodeType: "variable",
       variableName: "bar"
     })
-  })
-
-  test("ref attribute as variable", () => {
-    const template = `
-    <div :ref={{ myVar }}></div>
-  `
-    const ast = parseHandledom(template)
-    expect(() => generateCode(ast)).toThrow()
   })
 })
