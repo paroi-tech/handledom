@@ -3,7 +3,7 @@
   "version": "0.0.3",
   "license": "CC0-1.0",
   "description": "A webpack loader that compiles Handledom templates in template strings at build time.",
-  "author": "tomko.team",
+  "author": "Paroi",
   "main": "dist/index.js",
   "scripts": {
     "prepublishOnly": "npm run lint && npm run test && npm run build",
@@ -19,24 +19,24 @@
     "dist"
   ],
   "dependencies": {
-    "handledom": "0.0.6",
-    "loader-utils": "^1.2.3"
+    "handledom": "0.0.7",
+    "loader-utils": "^2.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.9.0",
-    "@types/loader-utils": "^1.1.3",
-    "@types/node": "^12.12.7",
-    "jest": "^24.9.0",
-    "rimraf": "^3.0.0",
-    "ts-jest": "^24.3.0",
-    "tslint": "^5.20.1",
-    "typescript": "^3.7.5"
+    "@types/jest": "^25.2.3",
+    "@types/loader-utils": "^2.0.0",
+    "@types/node": "^14.0.12",
+    "jest": "^26.0.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.1.0",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.5"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tomko-team/handledom.git"
+    "url": "git+https://github.com/paroi-tech/handledom.git"
   },
-  "homepage": "https://github.com/tomko-team/handledom/tree/master/in-template-string-loader",
+  "homepage": "https://github.com/paroi-tech/handledom/tree/master/in-template-string-loader",
   "keywords": [
     "handledom",
     "template",
