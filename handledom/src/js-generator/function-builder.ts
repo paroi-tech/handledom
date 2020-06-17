@@ -38,8 +38,10 @@ export function generateTemplateFunction(root: AstElement) {
     after.push(/* */ "};")
     after.push(/* */ "if(variables){update(variables);}")
     after.push(/* */ "return{root,refs,ref,update};")
-  } else
-    after.push("return{root,refs,ref};")
+  } else {
+    after.push("const update=()=>{};")
+    after.push("return{root,refs,ref,update};")
+  }
 
   return `function(${canBeUpdated ? "variables" : ""}){${before.join("")}${body}${after.join("")}}`
 }

@@ -1,19 +1,19 @@
 import { compileHandledom } from "handledom/compiler"
-import { findHandledomTemplateString } from "./find-handledom-template-string"
+import { findHandledomTemplateStrings } from "./find-handledom-template-strings"
 
 export function updateSource(source: string) {
-  const templateString = findHandledomTemplateString(source)
-  if (!templateString)
-    return source
+  const templateStrings = findHandledomTemplateStrings(source)
+  templateStrings.reverse()
 
-  const handledomFunction = compileHandledom(templateString.value)
-
-  // Replace the template string by function
   let result = source
-  result =
-    result.substr(0, templateString.start) +
-    handledomFunction +
-    result.substr(templateString.end)
+  for (const templateString of templateStrings) {
+    const handledomFunction = compileHandledom(templateString.value)
 
+    // Replace with the compiled code
+    result =
+      result.substr(0, templateString.start) +
+      handledomFunction +
+      result.substr(templateString.end)
+  }
   return result
 }

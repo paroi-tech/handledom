@@ -1,6 +1,6 @@
 {
   "name": "handledom",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "license": "CC0-1.0",
   "description": "An HTML template engine for DOM lovers.",
   "author": "Paroi",
