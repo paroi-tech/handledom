@@ -1,3 +1,4 @@
+// @ts-ignore
 import { HandleDomParserListener } from "../../antlr-parser/HandleDomParserListener.js"
 import { AstAttribute, AstElement, AstNode, AstVariable } from "../../types/ast"
 import { AntlrRuleContext } from "./antlr4-defs"
@@ -49,7 +50,7 @@ export default class AstExtractor extends (HandleDomParserListener as any) {
     this.registerElement(el)
   }
 
-  exitHtmlEmptyElement(ctx) {
+  exitHtmlEmptyElement() {
     // console.log("... exitHtmlEmptyElement", ctx.getText())
     this.stack.pop()
   }

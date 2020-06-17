@@ -28,6 +28,7 @@ describe("Generated Variables Specification", () => {
 `
     const ast = parseHandledom(template)
     const genVariables = toGeneratedVariables(ast)
+    // console.log("genVariables", genVariables)
     // expect(genVariables.length).toBe(2) // FIXME
     expect(genVariables[0].varName).toBe("root")
     expect(genVariables[0].scope).toBeUndefined()

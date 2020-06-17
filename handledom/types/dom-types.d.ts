@@ -6,4 +6,5 @@ export interface HandledomTemplateInstance {
     [ref: string]: HTMLElement | HTMLElement[]
   }
   update?(variables: { [name: string]: any }): void
+  ref<T = HTMLElement>(ref: string): T
 }

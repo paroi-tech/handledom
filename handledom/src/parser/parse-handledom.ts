@@ -1,8 +1,10 @@
-import { CommonTokenStream, InputStream, tree } from "antlr4"
+// @ts-ignore
 import { HandleDomLexer } from "../../antlr-parser/HandleDomLexer.js"
+// @ts-ignore
 import { HandleDomParser } from "../../antlr-parser/HandleDomParser.js"
 import { AstElement } from "../../types/ast"
 import AstExtractor from "./AstExtractor"
+const { CommonTokenStream, InputStream, tree } = require("antlr4")
 
 export function parseHandledom(source: string): AstElement {
   const chars = new InputStream(source)
@@ -14,7 +16,14 @@ export function parseHandledom(source: string): AstElement {
 
   const errors: string[] = []
   const errorListener = {
-    syntaxError(recognizer, offendingSymbol, line, column, msg, e) {
+    syntaxError(
+      recognizer: unknown,
+      offendingSymbol: unknown,
+      line: number,
+      column: number,
+      msg: string,
+      e: any
+    ) {
       errors.push(`Syntax error at line ${line}:${column}, ${msg}`)
     }
   }

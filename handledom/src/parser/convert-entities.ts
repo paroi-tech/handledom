@@ -1,16 +1,16 @@
-const namedEntities = {
+const namedEntities: { [entity: string]: string } = {
   "&amp;": "&",
   "&gt;": ">",
   "&lt;": "<",
   "&quot;": "\"",
-  "&nbsp;": "\0xa0",
+  "&nbsp;": "\u00a0",
 }
 
 export function convertEntities(text: string): string {
   return text.replace(/&#?[a-z0-9]{2,8};/ig, (match) => {
     const lower = match.toLowerCase()
-    if (lower[1] === "#") {
-      return lower[2] === "x" ? hexEntityToChar(lower) : decimalEntityToChar(lower)
+    if (lower.charAt(1) === "#") {
+      return lower.charAt(2) === "x" ? hexEntityToChar(lower) : decimalEntityToChar(lower)
     } else {
       if (!namedEntities[lower]) {
         const listStr = Object.keys(namedEntities).join(", ")

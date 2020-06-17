@@ -1,6 +1,6 @@
 {
   "name": "handledom",
-  "version": "0.0.7",
+  "version": "0.1.4",
   "license": "CC0-1.0",
   "description": "An HTML template engine for DOM lovers.",
   "author": "Paroi",
@@ -31,12 +31,12 @@
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^13.0.0",
-    "@types/jest": "^25.2.3",
-    "@types/node": "^14.0.12",
+    "@types/jest": "^26.0.0",
+    "@types/node": "^14.0.13",
     "jest": "^26.0.1",
     "js-beautify": "^1.11.0",
     "rimraf": "^3.0.2",
-    "rollup": "^2.15.0",
+    "rollup": "^2.16.1",
     "ts-jest": "^26.1.0",
     "tslint": "^6.1.2",
     "typescript": "^3.9.5",

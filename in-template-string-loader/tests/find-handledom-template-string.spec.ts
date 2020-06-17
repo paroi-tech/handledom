@@ -1,4 +1,4 @@
-import { findHandledomTemplateString } from "./find-handledom-template-string"
+import { findHandledomTemplateString } from "../src/find-handledom-template-string"
 
 describe("Spec for 'find-handledom-template-string'", () => {
   test("starts at first character", () => {

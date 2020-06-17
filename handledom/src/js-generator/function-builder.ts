@@ -12,7 +12,10 @@ export function generateTemplateFunction(root: AstElement) {
   ).join(",") + "};"
 
   const before: string[] = []
-  const after = [`const refs=${refsCode};`]
+  const after = [
+    `const refs=${refsCode};`,
+    `const ref=n=>{if(!refs[n])throw new Error(\`Missing handle: '\${n}'\`);return refs[n]};`,
+  ]
 
   if (canBeUpdated) {
     before.push(/* */ "const cur=Object.assign({}, variables);")
@@ -34,9 +37,9 @@ export function generateTemplateFunction(root: AstElement) {
     after.push(/*   */ "})")
     after.push(/* */ "};")
     after.push(/* */ "if(variables){update(variables);}")
-    after.push(/* */ "return{root,refs,update};")
+    after.push(/* */ "return{root,refs,ref,update};")
   } else
-    after.push("return{root,refs};")
+    after.push("return{root,refs,ref};")
 
   return `function(${canBeUpdated ? "variables" : ""}){${before.join("")}${body}${after.join("")}}`
 }

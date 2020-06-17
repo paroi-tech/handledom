@@ -41,7 +41,7 @@ function generateElementContentCode(node: AstElement, varName: string, refs: {})
   let canBeUpdated = false
 
   for (const attr of (node.attributes || [])) {
-    if (attr.name === "h-ref") {
+    if (attr.name === "h") {
       checkRefAttributeValue(attr.value, node.nodeName)
       updateRefs(refs, varName, attr.value)
     } else if (attr.name === "h-if") {
@@ -62,7 +62,7 @@ function generateElementContentCode(node: AstElement, varName: string, refs: {})
   return { content, canBeUpdated }
 }
 
-function updateRefs(refs: object, varName: string, ref: string) {
+function updateRefs(refs: { [handle: string]: unknown }, varName: string, ref: string) {
   const obj = refs[ref]
   if (!obj)
     refs[ref] = varName
@@ -74,9 +74,9 @@ function updateRefs(refs: object, varName: string, ref: string) {
 
 function checkRefAttributeValue(value: any, tagName: string): asserts value is string {
   if (!value)
-    throw new Error(`Missing value for 'h-ref' attribute on ${tagName} tag`)
+    throw new Error(`Missing value for 'h' attribute on ${tagName} tag`)
   if (typeof value !== "string")
-    throw new Error(`'h-ref' attribute cannot be a variable`)
+    throw new Error(`'h' attribute cannot be a variable`)
   if (!/^[a-zA-z_$][\w$]*$/.test(value))
-    throw new Error(`Invalid 'h-ref' attribute value: ${value}`)
+    throw new Error(`Invalid 'h' attribute value: ${value}`)
 }
