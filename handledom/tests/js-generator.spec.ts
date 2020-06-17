@@ -10,10 +10,10 @@ describe("JS Generator Specification", () => {
 
   test("attribute as variable", () => {
     const template = `
-<input class="a" type="text" value="{{ login }}" h="login">
+<input class="a" type="text" value={{ login }} h="login">
   `
     const code = compileHandledom(template)
-    console.log(code)
+    // console.log(code)
     expect(code.includes("update=()=>{}")).toBeFalsy()
   })
 
