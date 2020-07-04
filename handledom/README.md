@@ -119,5 +119,6 @@ npm install
 
 With VS Code, our recommanded plugins are:
 
-- **ANTLR4 grammar syntax support** from Mike Lischke (`mike-lischke.vscode-antlr4`)
-- **TSLint** from Microsoft (`ms-vscode.vscode-typescript-tslint-plugin`)
+- **ANTLR4 grammar syntax support** - `mike-lischke.vscode-antlr4`
+- **ESLint** - `dbaeumer.vscode-eslint`
+- **Prettier** - `esbenp.prettier-vscode`

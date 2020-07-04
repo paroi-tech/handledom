@@ -13,6 +13,6 @@ export default function handledom(strings: TemplateStringsArray, ...expressions:
     }
   }
   const code = compileHandledom(template)
-  // tslint:disable-next-line: no-eval
+  // eslint-disable-next-line no-eval
   return eval("(" + code + ")")
 }

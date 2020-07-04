@@ -10,6 +10,7 @@ export default class AstExtractor extends (HandleDomParserListener as any) {
   private currentAttribute?: AstAttribute
 
   constructor() {
+    // eslint-disable-next-line constructor-super
     super()
     this.stack = []
   }
@@ -24,7 +25,7 @@ export default class AstExtractor extends (HandleDomParserListener as any) {
     const name = ctx.TAG_NAME().getText().toLowerCase()
     const el: AstElement = {
       nodeType: "element",
-      nodeName: name,
+      nodeName: name
     }
     this.registerElement(el)
   }

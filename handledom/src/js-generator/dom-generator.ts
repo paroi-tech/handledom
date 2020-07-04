@@ -36,7 +36,7 @@ export function generateDomCode(genVariables: GeneratedVariable[]) {
   }
 }
 
-function generateElementContentCode(node: AstElement, varName: string, refs: {}) {
+function generateElementContentCode(node: AstElement, varName: string, refs: { [handle: string]: unknown }) {
   const content: string[] = []
   let canBeUpdated = false
 
@@ -76,7 +76,7 @@ function checkRefAttributeValue(value: any, tagName: string): asserts value is s
   if (!value)
     throw new Error(`Missing value for 'h' attribute on ${tagName} tag`)
   if (typeof value !== "string")
-    throw new Error(`'h' attribute cannot be a variable`)
+    throw new Error("'h' attribute cannot be a variable")
   if (!/^[a-zA-z_$][\w$]*$/.test(value))
     throw new Error(`Invalid 'h' attribute value: ${value}`)
 }

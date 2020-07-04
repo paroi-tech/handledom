@@ -3,7 +3,7 @@ const namedEntities: { [entity: string]: string } = {
   "&gt;": ">",
   "&lt;": "<",
   "&quot;": "\"",
-  "&nbsp;": "\u00a0",
+  "&nbsp;": "\u00a0"
 }
 
 export function convertEntities(text: string): string {

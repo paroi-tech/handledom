@@ -14,10 +14,14 @@
     "useTab": false
   },
   "editor.insertSpaces": true,
-  "editor.rulers": [100],
+  "editor.rulers": [120],
   "editor.tabSize": 2,
   "editor.wordWrap": "wordWrapColumn",
-  "editor.wordWrapColumn": 100,
+  "editor.wordWrapColumn": 120,
+  "eslint.workingDirectories": [
+    { "pattern": "./handledom/" },
+    { "pattern": "./in-template-string-loader/" }
+  ],
   "files.encoding": "utf8",
   "files.trimTrailingWhitespace": true,
   "javascript.format.semicolons": "remove",
@@ -42,11 +46,8 @@
     "opacity": 50
   },
   "todo-tree.highlights.highlightDelay": 50,
-  "tslint.configFile": "tslint.json",
-  "tslint.jsEnable": true,
   "typescript.locale": "en",
   "typescript.format.semicolons": "remove",
   "typescript.preferences.importModuleSpecifier": "relative",
-  "typescript.preferences.quoteStyle": "double",
-  "typescript.tsdk": "handledom/handledom/node_modules/typescript/lib"
+  "typescript.preferences.quoteStyle": "double"
 }

@@ -1,6 +1,6 @@
 {
   "name": "handledom",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "license": "CC0-1.0",
   "description": "An HTML template engine for DOM lovers.",
   "author": "Paroi",
@@ -16,7 +16,7 @@
     "tsc-es5": "tsc --target ES5 --outDir compiled-es5",
     "clear": "rimraf 'antlr-parser/*' 'compiled-*/*' 'compiler*.js' 'template-string*.js' 'browser*.js'",
     "make-bundles": "node scripts/make-bundles.js",
-    "lint": "tslint -p tsconfig.json -t verbose",
+    "lint": "eslint . --ext .ts",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -31,15 +31,19 @@
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^13.0.0",
-    "@types/jest": "^26.0.0",
-    "@types/node": "^14.0.13",
-    "jest": "^26.0.1",
+    "@types/jest": "^26.0.3",
+    "@types/node": "^14.0.14",
+    "@typescript-eslint/eslint-plugin": "^3.5.0",
+    "@typescript-eslint/parser": "^3.5.0",
+    "eslint": "^7.4.0",
+    "eslint-config-prettier": "^6.11.0",
+    "jest": "^26.1.0",
     "js-beautify": "^1.11.0",
+    "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
-    "rollup": "^2.16.1",
-    "ts-jest": "^26.1.0",
-    "tslint": "^6.1.2",
-    "typescript": "^3.9.5",
+    "rollup": "^2.18.2",
+    "ts-jest": "^26.1.1",
+    "typescript": "^3.9.6",
     "webpack": "^4.43.0"
   },
   "repository": {

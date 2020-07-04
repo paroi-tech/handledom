@@ -14,11 +14,11 @@ export function generateTemplateFunction(root: AstElement) {
   const before: string[] = []
   const after = [
     `const refs=${refsCode};`,
-    `const ref=n=>{if(!refs[n])throw new Error(\`Missing handle: '\${n}'\`);return refs[n]};`,
+    "const ref=n=>{if(!refs[n])throw new Error(`Missing handle: '${n}'`);return refs[n]};"
   ]
 
   if (canBeUpdated) {
-    before.push(/* */ "const cur=Object.assign({}, variables);")
+    // before.push(/* */ "const cur=Object.assign({}, variables);")
     before.push(/* */ "const m=new Map();")
     before.push(/* */ "const cbListOf=key=>{")
     before.push(/*   */ "let value=m.get(key);")
@@ -29,12 +29,16 @@ export function generateTemplateFunction(root: AstElement) {
     before.push(/*   */ "return value;")
     before.push(/* */ "};")
     after.push(/* */ "const update=values=>{")
-    after.push(/*   */ "Object.assign(cur, values);")
-    after.push(/*   */ "Object.entries(values).forEach(([k,v])=>{")
-    after.push(/*     */ "const list=m.get(k);")
-    after.push(/*     */ "if(list)")
-    after.push(/*       */ "list.forEach(cb=>cb(v));")
-    after.push(/*   */ "})")
+    // after.push(/*   */ "Object.assign(cur, values);")
+    // after.push(/*   */ "Object.entries(values).forEach(([k,v])=>{")
+    // after.push(/*     */ "const list=m.get(k);")
+    // after.push(/*     */ "if(list)")
+    // after.push(/*       */ "list.forEach(cb=>cb(v));")
+    // after.push(/*   */ "})")
+    after.push(/*   */ "for (const [k, list] of m.entries()) {")
+    after.push(/*     */ "if (k in values)")
+    after.push(/*       */ "list.forEach(cb=>cb(values[k]));")
+    after.push(/*   */ "}")
     after.push(/* */ "};")
     after.push(/* */ "if(variables){update(variables);}")
     after.push(/* */ "return{root,refs,ref,update};")

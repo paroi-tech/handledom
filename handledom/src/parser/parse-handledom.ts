@@ -21,8 +21,7 @@ export function parseHandledom(source: string): AstElement {
       offendingSymbol: unknown,
       line: number,
       column: number,
-      msg: string,
-      e: any
+      msg: string
     ) {
       errors.push(`Syntax error at line ${line}:${column}, ${msg}`)
     }

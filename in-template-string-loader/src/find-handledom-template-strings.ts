@@ -6,7 +6,7 @@ export interface FoundTemplate {
 }
 
 export function findHandledomTemplateStrings(source: string): FoundTemplate[] {
-  const before = `(?:^|[^a-zA-Z0-9])`
+  const before = "(?:^|[^a-zA-Z0-9])"
   const varName = "[a-zA-Z_][a-zA-Z0-9_]*"
   const varDeclar = `(?:const|let|var)\\s${varName}`
   const templateString = "`(?:[^`\\\\]*(?:\\\\.[^`\\\\]*)*)`"
@@ -43,7 +43,7 @@ export function findHandledomTemplateStrings(source: string): FoundTemplate[] {
       start: handledomTagStart,
       end,
       code,
-      // tslint:disable-next-line: no-eval
+      // eslint-disable-next-line no-eval
       value: eval(templateCode)
     })
   }

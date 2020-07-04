@@ -35,4 +35,5 @@ module.exports = {
 
 With VS Code, our recommanded plugin is:
 
-* **TSLint** from Microsoft (`ms-vscode.vscode-typescript-tslint-plugin`)
+- **ESLint** - `dbaeumer.vscode-eslint`
+- **Prettier** - `esbenp.prettier-vscode`
