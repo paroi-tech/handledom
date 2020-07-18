@@ -1,6 +1,6 @@
 {
   "name": "@handledom/in-template-string-loader",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "license": "CC0-1.0",
   "description": "A webpack loader that compiles Handledom templates in template strings at build time.",
   "author": "Paroi",
@@ -19,8 +19,10 @@
     "dist"
   ],
   "dependencies": {
-    "handledom": "^0.1.8",
     "loader-utils": "^2.0.0"
+  },
+  "peerDependencies": {
+    "handledom": "^0.1.9"
   },
   "devDependencies": {
     "@types/jest": "^26.0.3",
@@ -30,6 +32,7 @@
     "@typescript-eslint/parser": "^3.5.0",
     "eslint": "^7.4.0",
     "eslint-config-prettier": "^6.11.0",
+    "handledom": "^0.1.9",
     "jest": "^26.1.0",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",

@@ -54,7 +54,7 @@ function generateElementContentCode(node: AstElement, varName: string, refs: { [
       const property = attr.value.variableName
       if ((node.nodeName === "input" || node.nodeName === "select") && attr.name === "value") {
         content.push(
-          `cbListOf("${property}").push(v=>${varName}.value=v));`
+          `cbListOf("${property}").push(v=>{${varName}.value=v});`
         )
       } else {
         content.push(
