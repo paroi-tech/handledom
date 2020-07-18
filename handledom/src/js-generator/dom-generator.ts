@@ -52,9 +52,15 @@ function generateElementContentCode(node: AstElement, varName: string, refs: { [
       content.push(`${varName}.setAttribute(${p1}, ${p2});`)
     } else {
       const property = attr.value.variableName
-      content.push(
-        `cbListOf("${property}").push(v=>${varName}.setAttribute(${encodeString(attr.name)},v));`
-      )
+      if ((node.nodeName === "input" || node.nodeName === "select") && attr.name === "value") {
+        content.push(
+          `cbListOf("${property}").push(v=>${varName}.value=v));`
+        )
+      } else {
+        content.push(
+          `cbListOf("${property}").push(v=>${varName}.setAttribute(${encodeString(attr.name)},v));`
+        )
+      }
       canBeUpdated = true
     }
   }
