@@ -5,6 +5,7 @@ export interface GeneratedVariable {
   parentVarName?: string
   node: AstNode
   scope?: GeneratedScope
+  parentNodeName?: string
 }
 
 export interface GeneratedScope {
@@ -35,7 +36,8 @@ export function toGeneratedVariables(root: AstElement): GeneratedVariable[] {
         remaining.push({
           varName: `el${++num}`,
           node: child,
-          parentVarName: current.varName
+          parentVarName: current.varName,
+          parentNodeName: current.node.nodeName
         })
       }
     }

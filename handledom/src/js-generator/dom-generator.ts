@@ -8,16 +8,24 @@ export function generateDomCode(genVariables: GeneratedVariable[]) {
   let canBeUpdated = false
   const body: string[] = []
 
-  for (const { varName, parentVarName, node } of genVariables) {
+  for (const { varName, parentVarName, node, parentNodeName } of genVariables) {
     if (typeof node === "string") {
-      body.push(`const ${varName}=document.createTextNode(${encodeString(node)});`)
-      body.push(`${parentVarName}.appendChild(${varName});`)
+      if (parentNodeName !== "textarea") {
+        body.push(`const ${varName}=document.createTextNode(${encodeString(node)});`)
+        body.push(`${parentVarName}.appendChild(${varName});`)
+      } else
+        body.push(`${parentVarName}.value=${encodeString(node)};`)
     } else if (node.nodeType === "variable") {
       canBeUpdated = true
-      body.push(`const ${varName}=document.createTextNode("");`)
-      body.push(`${parentVarName}.appendChild(${varName});`)
-      body.push(`cbListOf("${node.variableName}").push(v=>${varName}.nodeValue=v);`)
+      if (parentNodeName !== "textarea") {
+        body.push(`const ${varName}=document.createTextNode("");`)
+        body.push(`${parentVarName}.appendChild(${varName});`)
+        body.push(`cbListOf("${node.variableName}").push(v=>${varName}.nodeValue=v);`)
+      } else
+        body.push(`cbListOf("${node.variableName}").push(v=>${parentVarName}.value=v);`)
     } else {
+      if (node.nodeName === "textarea" && node.children && node.children.length !== 1)
+        throw new Error(`Syntax for textarea is <textarea>{{ someVar }}</textarea> or <textarea>Some text</textarea>`)
       body.push(`const ${varName}=document.createElement(${encodeString(node.nodeName)});`)
       if (parentVarName)
         body.push(`${parentVarName}.appendChild(${varName});`)
