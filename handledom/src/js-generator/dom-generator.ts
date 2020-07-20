@@ -13,8 +13,11 @@ export function generateDomCode(genVariables: GeneratedVariable[]) {
       if (parentNodeName !== "textarea") {
         body.push(`const ${varName}=document.createTextNode(${encodeString(node)});`)
         body.push(`${parentVarName}.appendChild(${varName});`)
-      } else
-        body.push(`${parentVarName}.value=${encodeString(node)};`)
+      } else {
+        const arr = node.trim().split("\n").map(s => s.trim())
+        const content = arr.join("\n")
+        body.push(`${parentVarName}.value=${encodeString(content)};`)
+      }
     } else if (node.nodeType === "variable") {
       canBeUpdated = true
       if (parentNodeName !== "textarea") {
