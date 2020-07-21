@@ -14,8 +14,8 @@ export function generateDomCode(genVariables: GeneratedVariable[]) {
         body.push(`const ${varName}=document.createTextNode(${encodeString(node)});`)
         body.push(`${parentVarName}.appendChild(${varName});`)
       } else {
-        const arr = node.trim().split("\n").map(s => s.trim())
-        const content = arr.join("\n")
+        const lines = node.trim().split("\n").map(s => s.trim())
+        const content = lines.join("\n")
         body.push(`${parentVarName}.value=${encodeString(content)};`)
       }
     } else if (node.nodeType === "variable") {
@@ -56,7 +56,11 @@ function generateElementContentCode(node: AstElement, varName: string, refs: { [
       checkRefAttributeValue(attr.value, node.nodeName)
       updateRefs(refs, varName, attr.value)
     } else if (attr.name === "h-if") {
-      // TODO
+      if (!attr.value || typeof attr.value === "string")
+        throw new Error("The value of h-if attribute must be a variable")
+      content.push(...generateIfCode(varName, attr.value.variableName))
+    } else if (attr.name === "h-for") {
+      // TODO...
     } else if (!attr.value || typeof attr.value === "string") {
       const p1 = encodeString(attr.name)
       const p2 = encodeString(attr.value || "")
@@ -78,6 +82,18 @@ function generateElementContentCode(node: AstElement, varName: string, refs: { [
 
   return { content, canBeUpdated }
 }
+
+function generateIfCode(varName: string, property: string) {
+  const chunks = [] as string[]
+
+  chunks.push(`if(!variables[${encodeString(property)}])`)
+  chunks.push(/**/`${varName}.hidden=true;`)
+  chunks.push(`cbListOf("${property}").push(v=>{${varName}.hidden=!v});`)
+
+  return chunks
+}
+
+
 
 function updateRefs(refs: { [handle: string]: unknown }, varName: string, ref: string) {
   const obj = refs[ref]

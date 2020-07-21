@@ -22,7 +22,7 @@ export function generateTemplateFunction(root: AstElement) {
     before.push(/* */ "const m=new Map();")
     before.push(/* */ "const cbListOf=key=>{")
     before.push(/*   */ "let value=m.get(key);")
-    before.push(/*   */ "if (!value){")
+    before.push(/*   */ "if (!value) {")
     before.push(/*     */ "value=[];")
     before.push(/*     */ "m.set(key,value);")
     before.push(/*   */ "}")
