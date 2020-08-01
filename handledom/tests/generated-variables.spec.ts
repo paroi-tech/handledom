@@ -21,7 +21,7 @@ describe("Generated Variables Specification", () => {
   test("With Scope without insertBefore", () => {
     const template = `
 <div>
-  <p h-if={{ ab }}>
+  <p h-show={{ ab }}>
     <i></i>
   </p>
 </div>
@@ -41,7 +41,7 @@ describe("Generated Variables Specification", () => {
   test("With Scope #2", () => {
     const template = `
 <div>
-  <p h-if={{ ab }}>
+  <p h-show={{ ab }}>
     <i></i>
   </p>
   <br>

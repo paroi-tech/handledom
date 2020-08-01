@@ -52,5 +52,5 @@ function isAstElement(node: AstNode): node is AstElement {
 }
 
 function isScopeElement(node: AstElement): boolean {
-  return !!node.attributes?.find(attr => attr.name === "h-if")
+  return !!node.attributes?.find(attr => attr.name === "h-show")
 }

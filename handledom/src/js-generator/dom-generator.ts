@@ -28,7 +28,7 @@ export function generateDomCode(genVariables: GeneratedVariable[]) {
         body.push(`cbListOf("${node.variableName}").push(v=>${parentVarName}.value=v);`)
     } else {
       if (node.nodeName === "textarea" && node.children && node.children.length !== 1)
-        throw new Error(`Syntax for textarea is <textarea>{{ someVar }}</textarea> or <textarea>Some text</textarea>`)
+        throw new Error("Syntax for textarea is <textarea>{{ someVar }}</textarea> or <textarea>Some text</textarea>")
       body.push(`const ${varName}=document.createElement(${encodeString(node.nodeName)});`)
       if (parentVarName)
         body.push(`${parentVarName}.appendChild(${varName});`)
@@ -55,9 +55,9 @@ function generateElementContentCode(node: AstElement, varName: string, refs: { [
     if (attr.name === "h") {
       checkRefAttributeValue(attr.value, node.nodeName)
       updateRefs(refs, varName, attr.value)
-    } else if (attr.name === "h-if") {
+    } else if (attr.name === "h-show") {
       if (!attr.value || typeof attr.value === "string")
-        throw new Error("The value of h-if attribute must be a variable")
+        throw new Error("The value of 'h-show' attribute must be a variable")
       content.push(...generateIfCode(varName, attr.value.variableName))
     } else if (attr.name === "h-for") {
       // TODO...
